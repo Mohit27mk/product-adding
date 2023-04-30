@@ -10,6 +10,7 @@ function isstringinvalid(string){
     return false;
 }
 
+//for signup and saving details of user in database
 exports.postAddUser=async(req,res,next)=>{
     try{
    const name=req.body.name;
@@ -39,10 +40,12 @@ exports.postAddUser=async(req,res,next)=>{
     }
 }
 
+//generating token for authenticate user
 function generateAccessToken(id,name){
     return jwt.sign({userId:id,name:name},'secretkey');
 }
 
+//checking if user sign up or not if signup then login the user
 exports.postLoginUser=async(req,res,next)=>{
     try{
         const email=req.body.email;

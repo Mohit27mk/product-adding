@@ -8,16 +8,16 @@ const userauthentication=require('../middleware/auth')
 const router = express.Router();
 
 
-
-// /admin/products => GET
+//for getting products from database
 router.get('/getproducts',userauthentication.authenticate, adminController.getProducts);
 
-// add products 
+//for adding products in database
 router.post('/add-product',userauthentication.authenticate, adminController.postAddProduct);
 
+//for update product in database
 router.put('/edit-product/:id',userauthentication.authenticate,adminController.putEditProduct);
 
-
+//for delete product in database
 router.delete('/delete-product/:id',userauthentication.authenticate,adminController.DeleteProduct);
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const jwt=require('jsonwebtoken');
 const User=require('../models/user');
 
+// for authenticate the user before every request
 const authenticate=(req,res,next)=>{
     try{
         const token=req.header('Authorization');

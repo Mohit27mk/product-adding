@@ -1,8 +1,7 @@
 const Product = require('../models/product');
 
-
-exports.postAddProduct = async(req, res, next) => {
-  
+//adding products to databse
+exports.postAddProduct = async(req, res, next) => { 
   try{
     const title = req.body.title;
     const imageUrl = req.body.imageUrl;
@@ -25,7 +24,9 @@ exports.postAddProduct = async(req, res, next) => {
  
 };
 
+//editing the products in database 
 exports.putEditProduct = (req, res, next) => {
+ try{
   const id = req.params.id;
   const { title, price, imageUrl, description } = req.body;
   
@@ -43,16 +44,19 @@ exports.putEditProduct = (req, res, next) => {
     res.send('Product updated successfully');
   })
   .catch(err => {
-    console.log(err);
-    res.send('Error updating product');
+    throw new Error;
   });
+ }catch(err){
+  console.log(err);
+  res.send('Error updating product');
+ }
    
 };
 
 
 
+//for get products from database and sending to frontend
 exports.getProducts = async(req, res, next) => {
-  // Product.findAll()
   try{
     const products=await req.user.getProducts()
    res.status(200).json({products:products});
@@ -63,6 +67,7 @@ exports.getProducts = async(req, res, next) => {
    
 };
 
+//for deleting products from database
 exports.DeleteProduct=async(req,res,next)=>{
 
   try{
