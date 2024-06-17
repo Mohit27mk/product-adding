@@ -16,6 +16,7 @@ exports.postAddUser=async(req,res,next)=>{
    const name=req.body.name;
    const email=req.body.email;
    const password=req.body.password;
+   const user_type =req.body.user_type;
    if(isstringinvalid(name)||isstringinvalid(email)||isstringinvalid(password)){
    return res.status(400).json({message:"Something is missing"});
    }
@@ -29,14 +30,25 @@ exports.postAddUser=async(req,res,next)=>{
        if(err){
         throw new Error();
        }
-       const data=await User.create({name:name,email:email,password:hash})
+       const data=await User.create({name:name,email:email,password:hash,user_type:user_type});
        await  data.createCart(); 
        res.status(201).json({userDetails:data});
       });       
 }catch(err){
     console.log(err);
-    res.status(402).json({message:"Something is wrong"});
-      
+    res.status(402).json({message:"Something is wrong"});  
+    }
+}
+
+exports.getUserDetails=async(req,res,next)=>{
+    try{
+        User.findByPk(req.user.id)
+        .then(user=>{
+            
+                res.status(201).json(user);        
+        }).catch(err=>{  res.status(404).json({message:"user not fount"});})
+    }catch{
+
     }
 }
 
@@ -62,7 +74,7 @@ exports.postLoginUser=async(req,res,next)=>{
                     throw new Error("User not authorized");
                 }
                 if(result===true){
-                    res.status(201).json({login:"Login succesful",token:generateAccessToken(emailExists.id,emailExists.name)});   
+                    res.status(201).json({login:"Login succesful",token:generateAccessToken(emailExists.id,emailExists.name),email:email});   
                 }else{
                     res.status(400).json({message:"password is incorrect"});
                 }

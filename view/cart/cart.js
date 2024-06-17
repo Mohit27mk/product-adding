@@ -1,7 +1,26 @@
 const ctItems=document.querySelector(".cartItems");
 
 window.addEventListener("DOMContentLoaded",()=>{
-    const token=localStorage.getItem('token');
+    const token=localStorage.getItem('token'); 
+
+    axios.get(`http://localhost:3000/user/get`,{ headers: {"Authorization":token} })
+    .then((res)=>{
+      console.log(res);
+      const addProductLink = document.getElementById('addProductLink');
+      if (res.data.user_type != 'admin') {
+          addProductLink.style.display = 'none';
+      }
+       }).catch((err)=>{
+         console.log(err);
+       })
+       const checkout = document.getElementById('checkout');
+           
+       checkout.onclick=()=>{
+        ctItems.innerHTML = ''
+        const token=localStorage.getItem('token');
+        axios.delete(`http://localhost:3000/shop/clear-cart`,{ headers: {"Authorization":token} });  
+    }
+       
 
     axios.get(`http://localhost:3000/shop/cart/`,{ headers: {"Authorization":token} })
     .then((res)=>{

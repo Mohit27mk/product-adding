@@ -11,20 +11,22 @@ function onSubmit(e) {
   const name=e.target.name.value;
   const email=e.target.email.value;
   const password=e.target.password.value;
+  const user_type = 'user';
 
     const myobj={
-      name,email,password
+      name,email,password,user_type
     }
     
     axios.post("http://localhost:3000/user/signup",myobj)
     .then((res)=>{
       if(res.data.Email==='exist'){
         alert("Email already exist");
+      }else{
+        alert("Sign up successfully");
       }
         window.location.href='../login/login.html';
       
     }).catch((err)=>{
-      console.log(myobj);
      console.log(err);
     })
    nameInput.value='';

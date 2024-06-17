@@ -1,18 +1,31 @@
 
 window.addEventListener("DOMContentLoaded",()=>{
     const token=localStorage.getItem('token');
+    
+  const user =  axios.get(`http://localhost:3000/user/get`,{ headers: {"Authorization":token} })
+    axios.get(`http://localhost:3000/user/get`,{ headers: {"Authorization":token} })
+    .then((res)=>{
+      console.log(res);
+      const addProductLink = document.getElementById('addProductLink');
+      if (res.data.user_type != 'admin') {
+          addProductLink.style.display = 'none';
+      }
+       }).catch((err)=>{
+         console.log(err);
+       })
+
     axios.get(`http://localhost:3000/product/getproducts/`,{ headers: {"Authorization":token} })
     .then((res)=>{
      console.log(res);
       for(var i=0;i<res.data.products.length;i++){
-        showProduct(res.data.products[i]);
+        showProduct(res.data.products[i],user);
       }
     }).catch((err)=>{
       console.log(err);
     })
    })
 
-  function showProduct(product){
+  function showProduct(product,user){ 
     const productslist = document.querySelector('.products-holder');
     const div = document.createElement('div');
     div.className="card pdd";
@@ -41,11 +54,13 @@ window.addEventListener("DOMContentLoaded",()=>{
      const deletebtn=document.createElement("a");
      deletebtn.className="btn btn-primary";
      deletebtn.appendChild(document.createTextNode("Delete"));
-     div1.appendChild(deletebtn);
      const editbtn=document.createElement("a");
      editbtn.className="btn btn-primary";
      editbtn.appendChild(document.createTextNode("Edit"));
+     if (user.user_type != 'admin'){
+     div1.appendChild(deletebtn);
      div1.appendChild(editbtn);
+     }
      const addtocartbtn=document.createElement("a");
      addtocartbtn.className="btn btn-primary";
      addtocartbtn.appendChild(document.createTextNode("AddToCart"));

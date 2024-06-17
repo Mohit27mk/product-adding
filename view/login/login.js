@@ -17,12 +17,14 @@ function onSubmit(e) {
     axios.post("http://localhost:3000/user/login",myobj)
     .then((res)=>{
       if(res.data.login==='Login succesful'){
-        alert("Login succesful");
+        alert(`Hello ${res.data.email}!`);
         localStorage.setItem('token',res.data.token);
-        window.location.href='../addProduct/addProduct.html';
-      }
+        window.location.href='../Products/products.html';
+      }else
+      alert("wrong credentials");
     }).catch((err)=>{
      console.log(err);
+     alert("something went wrong");
     })
    emailInput.value='';
    passwordInput.value='';

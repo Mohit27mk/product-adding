@@ -15,6 +15,8 @@ router.post('/cart/:id',userauthentication.authenticate,shopController.postCart)
 //for delete product from cart in database
 router.delete('/delete-cart-item/:id',userauthentication.authenticate,shopController.postCartDeleteProduct);
 
+router.delete('/clear-cart',userauthentication.authenticate,shopController.clearCart);
+
 
 
 module.exports = router;

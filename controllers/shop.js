@@ -1,5 +1,6 @@
 const Product = require('../models/product');
 const Cart=require('../models/cart');
+const sendCheckoutEmail = require('../util/mailer');
 
 //getting products from data base which is in the cart
 exports.getCart = (req, res, next) => {
@@ -76,3 +77,23 @@ exports.postCartDeleteProduct=(req,res,next)=>{
   }
  
 }
+
+
+exports.clearCart = async (req, res, next) => {
+  try {
+      const cart = await req.user.getCart();
+      if (!cart) {
+          return res.status(404).json({ message: "Cart not found" });
+      }
+
+      await cart.setProducts(null); // This will clear all products in the cart
+        const subject = 'Order Confirmation';
+        const text = `Thank you for your order! It will be shipped to address soon.`;
+        await sendCheckoutEmail(req.user.email, subject, text);  
+
+      res.status(200).json({ message: "Cart cleared successfully" });
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Failed to clear cart" });
+  }
+};

@@ -8,6 +8,11 @@ exports.postAddProduct = async(req, res, next) => {
     const price = req.body.price;
     const description = req.body.description;
     const userId=req.user.id;
+  
+    const user = User.findByPk(user.userId);
+    if(user.user_type != 'admin'){
+      res.status(400).json({message:"Something went wrong"});   
+    }
 
     const data=await Product.create({
       title:title,
@@ -58,8 +63,8 @@ exports.putEditProduct = (req, res, next) => {
 //for get products from database and sending to frontend
 exports.getProducts = async(req, res, next) => {
   try{
-    const products=await req.user.getProducts()
-   res.status(200).json({products:products});
+    const products = await Product.findAll();
+       res.status(200).json({products:products});
   }catch(err){
     console.log(err);
     res.status(500).json({err:err});

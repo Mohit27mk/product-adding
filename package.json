@@ -19,6 +19,7 @@
     "gitignore": "^0.7.0",
     "jsonwebtoken": "^9.0.0",
     "mysql2": "^3.2.4",
+    "nodemailer": "^6.9.13",
     "sequelize": "^6.31.0"
   }
 }

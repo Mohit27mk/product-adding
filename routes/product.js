@@ -9,7 +9,7 @@ const router = express.Router();
 
 
 //for getting products from database
-router.get('/getproducts',userauthentication.authenticate, adminController.getProducts);
+router.get('/getproducts', adminController.getProducts);
 
 //for adding products in database
 router.post('/add-product',userauthentication.authenticate, adminController.postAddProduct);

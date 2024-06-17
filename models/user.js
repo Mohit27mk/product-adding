@@ -22,6 +22,10 @@ email:{
 password:{
   type:Sequelize.STRING,
   allowNull:false
+},
+user_type:{
+  type:Sequelize.STRING,
+  allowNull:false
 }
 });
 
